@@ -4,7 +4,9 @@ https://github.com/actions/virtual-environments/issues/3687
 
 Let's try it!
 
-<img width="888" alt="github-actions-kotlin-script-template in IntelliJ IDEA 2022.1" src="https://user-images.githubusercontent.com/4026448/174341248-1e23fe8f-0e37-4b43-8645-9f56c150822b.png">
+| IntelliJ IDEA 2022.1 | GitHub Actions |
+| --- | --- |
+| <img width="888" alt="github-actions-kotlin-script-template in IntelliJ IDEA 2022.1" src="https://user-images.githubusercontent.com/4026448/174341248-1e23fe8f-0e37-4b43-8645-9f56c150822b.png"> | <img width="495" alt="GitHub Actions" src="https://user-images.githubusercontent.com/4026448/174345054-30bd737f-7e41-4d73-99b1-72ad966a5af5.png"> |
 
 # How to use this GitHub Template
 
