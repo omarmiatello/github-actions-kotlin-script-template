@@ -16,9 +16,10 @@ Just click on [![Use this template](https://img.shields.io/badge/-Use%20this%20t
 
 ## Step 2 - Update the script content
 
-Example [example.main.kts](example.main.kts):
+### Example 1: Example with external libraries:
 ```kotlin
 #!/usr/bin/env kotlin
+@file:Repository("https://repo.maven.apache.org/maven2")
 @file:Repository("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
 @file:DependsOn("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
 
@@ -27,22 +28,25 @@ import kotlinx.html.h1
 import kotlinx.html.html
 import kotlinx.html.p
 import kotlinx.html.stream.createHTML
-import java.io.File
 import java.util.Date
 
-println("🏁 Start")
-val startTime = System.currentTimeMillis()
-
 val addressee = "World"
-val res = createHTML().html {
+println(createHTML().html {
     body {
         h1 { +"Hello, $addressee!" }
         p { +"Last run: ${Date()}" }
     }
-}
-File("example.html").writeText(res)
+})
+```
 
-println("🎉 Completed in ${System.currentTimeMillis() - startTime}ms - Example generated!")
+Result:
+```html
+<html>
+  <body>
+    <h1>Hello, World!</h1>
+    <p>Last run: Mon Jun 20 17:12:31 CEST 2022</p>
+  </body>
+</html>
 ```
 
 Optionally you could change the file name.
@@ -62,3 +66,90 @@ git commit -m "Run script (using Github Action)"
 
 ### Step 4 - Launch this Action!  🎉
 Go to the Actions tab in GitHub. Have fun!
+
+## Other examples
+
+### Example 2: `KotlinScriptToolbox` utils (see [example.main.kts](example.main.kts))
+```kotlin
+#!/usr/bin/env kotlin
+@file:Repository("https://repo.maven.apache.org/maven2")
+@file:Repository("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.3")
+@file:DependsOn("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
+
+import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
+import kotlinx.html.body
+import kotlinx.html.h1
+import kotlinx.html.html
+import kotlinx.html.p
+import kotlinx.html.stream.createHTML
+import java.util.*
+
+launchKotlinScriptToolbox(scriptName = "My example") {
+    val addressee = "World"
+    val res = createHTML().html {
+        body {
+            h1 { +"Hello, $addressee!" }
+            p { +"Last run: ${Date()}" }
+        }
+    }
+    println(res)
+    writeText("example.html", res)
+}
+```
+
+Result:
+```html
+🏁 My example - Start!
+<html>
+  <body>
+    <h1>Hello, World!</h1>
+    <p>Last run: Mon Jun 20 17:07:49 CEST 2022</p>
+  </body>
+</html>
+🎉 My example - Completed in 23ms
+```
+
+### Example 3: data classes + read/write files + read system property
+
+```kotlin
+#!/usr/bin/env kotlin
+@file:Repository("https://repo.maven.apache.org/maven2")
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.3")
+@file:DependsOn("com.github.omarmiatello.telegram:client-jvm:6.0")
+@file:DependsOn("io.ktor:ktor-client-okhttp-jvm:2.0.2")  // required for com.github.omarmiatello.telegram:client
+
+import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
+import com.github.omarmiatello.kotlinscripttoolbox.zerosetup.readJsonOrNull
+import com.github.omarmiatello.kotlinscripttoolbox.zerosetup.writeJson
+import com.github.omarmiatello.telegram.TelegramClient
+
+data class DataExample(val p1: Int = 1)
+
+launchKotlinScriptToolbox(scriptName = "My example") {
+
+    // Set up: Telegram notification
+    val telegramClient = TelegramClient(apiKey = readSystemPropertyOrNull("TELEGRAM_BOT_APIKEY")!!)
+    val defaultChatId = readSystemPropertyOrNull("TELEGRAM_CHAT_ID")!!
+    suspend fun sendTelegramMessage(text: String, chatId: String = defaultChatId) {
+        println("💬 $text")
+        telegramClient.sendMessage(chat_id = chatId, text = text)
+    }
+    sendTelegramMessage("Ciao!")
+
+    // read secrets from system property or local.properties
+    readSystemPropertyOrNull(propertyName = "SECRET_API_KEY")
+    
+    // read/write text
+    writeText(pathname = "file.txt", text = "Ciao!")
+    val content1: String? = readTextOrNull(pathname = "file.txt")
+
+    // read/write object
+    writeJson(pathname = "file.json", obj = DataExample(p1 = 2))
+    val content2: DataExample? = readJsonOrNull(pathname = "file.json")
+}
+```
+
+### Example 4: Stadia Games API (parse + write file + send notification)
+
+See: [https://github.com/omarmiatello/stadia-games-api/blob/main/update-api.main.kts](https://github.com/omarmiatello/stadia-games-api/blob/main/update-api.main.kts)
