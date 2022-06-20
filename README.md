@@ -16,6 +16,8 @@ Just click on [![Use this template](https://img.shields.io/badge/-Use%20this%20t
 
 ## Step 2 - Update the script content
 
+Update [example.main.kts](example.main.kts). Optionally you could change the file name.
+
 ### Example 1: Example with external libraries:
 ```kotlin
 #!/usr/bin/env kotlin
@@ -49,8 +51,6 @@ Result:
 </html>
 ```
 
-Optionally you could change the file name.
-
 ### Step 3 - Update main.yml (Optional)
 Update [.github/workflows/main.yml](.github/workflows/main.yml)
 
@@ -69,7 +69,7 @@ Go to the Actions tab in GitHub. Have fun!
 
 ## Other examples
 
-### Example 2: `KotlinScriptToolbox` utils (see [example.main.kts](example.main.kts))
+### Example 2: `KotlinScriptToolbox` utils
 ```kotlin
 #!/usr/bin/env kotlin
 @file:Repository("https://repo.maven.apache.org/maven2")
