@@ -74,7 +74,7 @@ Go to the Actions tab in GitHub. Have fun!
 #!/usr/bin/env kotlin
 @file:Repository("https://repo.maven.apache.org/maven2")
 @file:Repository("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
-@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.3")
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.8")
 @file:DependsOn("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
 
 import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
@@ -115,31 +115,21 @@ Result:
 ```kotlin
 #!/usr/bin/env kotlin
 @file:Repository("https://repo.maven.apache.org/maven2")
-@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.3")
-@file:DependsOn("com.github.omarmiatello.telegram:client-jvm:6.0")
-@file:DependsOn("io.ktor:ktor-client-okhttp-jvm:2.0.2")  // required for com.github.omarmiatello.telegram:client
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.8")
 
-import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
-import com.github.omarmiatello.kotlinscripttoolbox.zerosetup.readJsonOrNull
-import com.github.omarmiatello.kotlinscripttoolbox.zerosetup.writeJson
-import com.github.omarmiatello.telegram.TelegramClient
+import com.github.omarmiatello.kotlinscripttoolbox.gson.readJsonOrNull
+import com.github.omarmiatello.kotlinscripttoolbox.gson.writeJson
+import com.github.omarmiatello.kotlinscripttoolbox.telegram.sendTelegramMessage
+import com.github.omarmiatello.kotlinscripttoolbox.twitter.sendTweet
+import com.github.omarmiatello.kotlinscripttoolbox.zerosetup.launchKotlinScriptToolboxZeroSetup
 
 data class DataExample(val p1: Int = 1)
 
-launchKotlinScriptToolbox(scriptName = "My example") {
-
-    // Set up: Telegram notification
-    val telegramClient = TelegramClient(apiKey = readSystemPropertyOrNull("TELEGRAM_BOT_APIKEY")!!)
-    val defaultChatId = readSystemPropertyOrNull("TELEGRAM_CHAT_ID")!!
-    suspend fun sendTelegramMessage(text: String, chatId: String = defaultChatId) {
-        println("💬 $text")
-        telegramClient.sendMessage(chat_id = chatId, text = text)
-    }
-    sendTelegramMessage("Ciao!")
+launchKotlinScriptToolboxZeroSetup {
 
     // read secrets from system property or local.properties
     readSystemPropertyOrNull(propertyName = "SECRET_API_KEY")
-    
+
     // read/write text
     writeText(pathname = "file.txt", text = "Ciao!")
     val content1: String? = readTextOrNull(pathname = "file.txt")
@@ -147,6 +137,10 @@ launchKotlinScriptToolbox(scriptName = "My example") {
     // read/write object
     writeJson(pathname = "file.json", obj = DataExample(p1 = 2))
     val content2: DataExample? = readJsonOrNull(pathname = "file.json")
+
+    // notifications
+    sendTelegramMessage("Hi!")
+    sendTweet("Hi!")
 }
 ```
 
