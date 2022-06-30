@@ -16,7 +16,7 @@ Just click on [![Use this template](https://img.shields.io/badge/-Use%20this%20t
 
 ## Step 2 - Update the script content
 
-Update [example.main.kts](example.main.kts). Optionally you could change the file name.
+Update [project.main.kts](project.main.kts). Optionally you could change the file name.
 
 ### Example 1: Example with external libraries:
 ```kotlin
@@ -56,7 +56,7 @@ Update [.github/workflows/main.yml](.github/workflows/main.yml)
 
 ```yaml
 # Update the file name here
-run: kotlinc -script ./example.main.kts
+run: kotlinc -script ./project.main.kts
 ```
 
 ```yaml
