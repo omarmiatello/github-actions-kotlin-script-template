@@ -74,7 +74,7 @@ Go to the Actions tab in GitHub. Have fun!
 #!/usr/bin/env kotlin
 @file:Repository("https://repo.maven.apache.org/maven2")
 @file:Repository("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
-@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.8")
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.1.0")
 @file:DependsOn("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
 
 import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
@@ -85,7 +85,10 @@ import kotlinx.html.p
 import kotlinx.html.stream.createHTML
 import java.util.*
 
-launchKotlinScriptToolbox(scriptName = "My example") {
+launchKotlinScriptToolbox(
+    scope = BaseScope.fromDefaults(),
+    scriptName = "My example",
+) {
     val addressee = "World"
     val res = createHTML().html {
         body {
@@ -115,18 +118,15 @@ Result:
 ```kotlin
 #!/usr/bin/env kotlin
 @file:Repository("https://repo.maven.apache.org/maven2")
-@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.0.8")
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.1.0")
 
+import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
 import com.github.omarmiatello.kotlinscripttoolbox.gson.readJsonOrNull
 import com.github.omarmiatello.kotlinscripttoolbox.gson.writeJson
-import com.github.omarmiatello.kotlinscripttoolbox.telegram.sendTelegramMessage
-import com.github.omarmiatello.kotlinscripttoolbox.twitter.sendTweet
-import com.github.omarmiatello.kotlinscripttoolbox.zerosetup.launchKotlinScriptToolboxZeroSetup
-
+import com.github.omarmiatello.kotlinscripttoolbox.zerosetup.ZeroSetupScope
 data class DataExample(val p1: Int = 1)
 
-launchKotlinScriptToolboxZeroSetup {
-
+launchKotlinScriptToolbox(scope = ZeroSetupScope()) {
     // read secrets from system property or local.properties
     readSystemPropertyOrNull(propertyName = "SECRET_API_KEY")
 
