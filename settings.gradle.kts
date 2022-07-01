@@ -1,1 +1,1 @@
-rootProject.name = "script-project"
+rootProject.name = "github-actions-kotlin-script-template"

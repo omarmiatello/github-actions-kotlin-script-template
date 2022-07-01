@@ -74,7 +74,7 @@ Go to the Actions tab in GitHub. Have fun!
 #!/usr/bin/env kotlin
 @file:Repository("https://repo.maven.apache.org/maven2")
 @file:Repository("https://maven.pkg.jetbrains.space/public/p/kotlinx-html/maven")
-@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.1.0")
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.1.2")
 @file:DependsOn("org.jetbrains.kotlinx:kotlinx-html-jvm:0.7.3")
 
 import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
@@ -118,7 +118,7 @@ Result:
 ```kotlin
 #!/usr/bin/env kotlin
 @file:Repository("https://repo.maven.apache.org/maven2")
-@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.1.0")
+@file:DependsOn("com.github.omarmiatello.kotlin-script-toolbox:zero-setup:0.1.2")
 
 import com.github.omarmiatello.kotlinscripttoolbox.core.launchKotlinScriptToolbox
 import com.github.omarmiatello.kotlinscripttoolbox.gson.readJsonOrNull
